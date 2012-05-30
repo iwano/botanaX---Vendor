@@ -1,0 +1,30 @@
+<div data-role="collapsible-set">
+	<div data-role="collapsible" data-collapsed="true">
+		<h3>My Orders to deliver</h3>
+		<ul data-role="listview" data-theme="c">
+		<% @route_details.each do |route_detail| %>
+			<li class="swipe" id="order_id=<%= route_detail.order.id%>">
+				<%= route_detail.order.user.name %><br />
+				<%= "#{route_detail.order.user.state.name} - #{route_detail.order.user.city.name}"%><br />
+				<%= route_detail.order.user.address %><br />
+				<%= "#{route_detail.order.number_products} - #{number_to_currency (route_detail.order.total)}" %><br />
+				<%= route_detail.order.status%> <%=hidden_field 'id', route_detail.order.id, class: "route_id", value: route_detail.route.id%><br />
+				Route id: <%= route_detail.route.id%>
+			</li>
+		<% end %>
+		</ul>
+	</div>
+
+	<div data-role="collapsible" data-collapsed="true">
+		<h3>My Routes</h3>
+		<ul data-role="listview" data-theme="c">
+		<% @routes.each do |route| %>
+			<li>
+			<%= "#{route.id} -  #{route.finished ? 'finished' : 'not finished'} - #{route.route_details.count} stops" %>
+			</li>
+		<% end %>
+		</ul>
+	</div>
+</div>
+
+<h4 class="center"><%="#{@user.name} - #{@user.email}"%></h4>

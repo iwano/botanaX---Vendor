@@ -1,14 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html manifest="/application.manifest">
 <head>
   <title>Soytudaddy</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" %>
+    <%= javascript_include_tag "http://code.jquery.com/jquery-1.7.2.min.js", "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js", "http://modernizr.com/downloads/modernizr.js" %>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <style>
+      .aDeleteBtn {
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        float: right;
+        height: 15px;
+        line-height: 15px;
+        margin: 3px 10px 0 0;
+        padding: 0.6em;
+        position: absolute;
+        right: 0;
+        top: 37px;
+        z-index: 10;
+      }
+      .ui-btn-up-r { border: 1px solid #953403; background: #2567ab; font-weight: bold; color: #fff; cursor: pointer;  text-shadow: 0 -1px 1px #953403; text-decoration: none; background-image: -moz-linear-gradient(top, #ec4a0b, #ad390c); background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ec4a0b),color-stop(1, #ad390c));   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ec4a0b', EndColorStr='#ad390c')"; }
+
+      .ui-btn-up-r a.ui-link-inherit { color: #fff; }
+
+      .center{
+        text-align:center;
+      }
+
+      span.timestamp{
+        color:#A60000;
+      }
+    </style>
+    <script>
+      $(function(){
+
+        $('li.swipe').live('swipeleft', function(event){
+            var $li = $(this);
+            $('.aDeleteBtn').remove();
+            var $url = '/route_details/deliver?' + $(this).attr('id');
+            var $deleteBtn = $('<a>Delivered</a>').attr({
+            'class': 'aDeleteBtn ui-btn-up-r',
+            'id': $url});
+            $li.prepend($deleteBtn); 
+        });
+
+        $('a.aDeleteBtn').live('click', function(e){
+        	var item = $(this).attr('id');
+        	if (window.navigator.onLine) {
+        		//send request here**************
+        		$.get(item, null, "script");
+            }else {
+            	if (localStorage.getItem(localStorageKey) != null){
+            		var pending = JSON.parse(localStorage.getItem(localStorageKey));
+                alert('adding > ' + item + 'to local storage')
+        			  pending.push(item);
+            		localStorage.setItem(localStorageKey, JSON.stringify(pending));
+            	}else{
+            		var pending = [];
+                alert('adding > ' + item + 'to local storage')
+        			  pending.push(item);
+            		localStorage.setItem(localStorageKey, JSON.stringify(pending));
+            	}        	
+            }
+            $(this).closest("li").text('Order delivered').css({'font-size':'20px', 'height':'40px', 'color':'red', 'font-weight':'bold'}).fadeOut(6000); 
+        });
+
+        $('li.swipe').live('swiperight', function(event){
+            $('.aDeleteBtn').remove();
+        });
+
+  		var localStorageKey = "demoStorageKey";
+       
+            if (Modernizr.localstorage) {
+            }
+            else {
+                alert("Unfortunately your browser doesn't support local storage");
+            }
+
+        sendPending();
+
+      function sendPending() {
+      if (window.navigator.onLine) {
+        var pendingItems = JSON.parse(localStorage.getItem(localStorageKey));
+        if (pendingItems.length > 0) {
+          var item = pendingItems[0];
+          //send request here*******************
+          $.get(item, null, "script");
+          alert("submiting > " + item);
+           pendingItems.shift();
+           localStorage.setItem(localStorageKey, JSON.stringify(pendingItems));
+           setTimeout(sendPending, 100);
+        }
+      }
+    }
+      });
+    </script>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
+	<div data-role="page" data-theme="b" data-content-theme="b">
+      <div data-role="header">
+        <h1>botanaX - Vendor</h1> 
+      </div><!-- /header -->
+	  <div data-role="content"> 
+        <%= yield %>    
+      </div><!-- /content -->
 
 </body>
 </html>
