@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.3'
 gem 'rack-offline'
 gem 'taps'
-gem "erubis", "~> 2.7.0"
+gem "erubis"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -42,4 +42,5 @@ gem 'jquery-rails'
 
 group :production do
   gem 'pg', '0.12.2'
+  gem "erubis", "~> 2.7.0"
 end
