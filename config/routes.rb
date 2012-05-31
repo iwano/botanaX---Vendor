@@ -1,29 +1,13 @@
 Soytudaddy::Application.routes.draw do
 
   offline = Rack::Offline.configure do
-    cache "assets/application.js"
-    cache "assets/application.css"
     cache "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css"
     cache "http://code.jquery.com/jquery-1.7.2.min.js"
     cache "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"
-    cache "http://code.jquery.com/mobile/1.1.0/images/icons-18-white.png"
-    cache "http://code.jquery.com/mobile/1.1.0/images/ajax-loader.gif"
     cache "http://modernizr.com/downloads/modernizr.js"
- 
-    files = Dir[
-      "#{root}/**/*.html"]
-    files.each do |file|
-      public_dir = Pathname.new("#{root}/public")
-      cache Pathname.new(file).relative_path_from(public_dir)
-    end
-    files = Dir[
-      "#{root}/assets/**/*.{js,css,jpg,png,gif}"]
-    files.each do |file|
-      cache Pathname.new(file).relative_path_from(root)
-    end
-
     network "/"
   end
+
   match "/application.manifest" => offline
 
   root to: 'static_pages#home'
