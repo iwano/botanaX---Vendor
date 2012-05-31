@@ -83,7 +83,7 @@
       if (window.navigator.onLine) {
         if (localStorage.getItem(localStorageKey) != null){
         var pendingItems = JSON.parse(localStorage.getItem(localStorageKey));
-      } else var pendingItems = ""
+      } else var pendingItems = "";
         if (pendingItems.length > 0) {
           var item = pendingItems[0];
           //send request here*******************
