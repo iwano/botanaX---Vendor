@@ -116,7 +116,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
-  erubis
+  erubis (~> 2.7.0)
   jquery-rails
   pg (= 0.12.2)
   rack-offline
