@@ -5,6 +5,8 @@ Soytudaddy::Application.routes.draw do
     cache "http://code.jquery.com/jquery-1.7.2.min.js"
     cache "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"
     cache "http://modernizr.com/downloads/modernizr.js"
+    cache "http://code.jquery.com/mobile/1.1.0/images/icons-18-white.png"
+    cache "http://code.jquery.com/mobile/1.1.0/images/ajax-loader.gif"
     network "/"
   end
 
