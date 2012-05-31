@@ -74,14 +74,16 @@
             if (Modernizr.localstorage) {
             }
             else {
-                alert("Unfortunately your browser doesn't support local storage");
+              alert("Unfortunately your browser doesn't support local storage");
             }
 
         sendPending();
 
       function sendPending() {
       if (window.navigator.onLine) {
+        if (localStorage.getItem(localStorageKey) != null){
         var pendingItems = JSON.parse(localStorage.getItem(localStorageKey));
+      } else var pendingItems = ""
         if (pendingItems.length > 0) {
           var item = pendingItems[0];
           //send request here*******************
@@ -92,19 +94,19 @@
            setTimeout(sendPending, 100);
         }
       }
-    }
+      } 
       });
     </script>
   <%= csrf_meta_tags %>
 </head>
 <body>
 	<div data-role="page" data-theme="b" data-content-theme="b">
-      <div data-role="header">
-        <h1>botanaX - Vendor</h1> 
-      </div><!-- /header -->
+    <div data-role="header">
+      <h1>botanaX - Vendor</h1> 
+    </div><!-- /header -->
 	  <div data-role="content"> 
-        <%= yield %>    
-      </div><!-- /content -->
+      <%= yield %>    
+    </div><!-- /content -->
 
 </body>
 </html>
